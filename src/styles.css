@@ -7,3 +7,13 @@ body {
   /* @apply bg-gradient-to-b from-orange-500 to-yellow-300 h-screen; */
   @apply bg-[#4686F7] font-sans;
 }
+table {
+  @apply bg-gradient-to-r from-orange-500 to-yellow-500 text-gray-100;
+}
+th {
+  @apply text-xl tracking-wider border-b-2 border-[#FC0062];
+}
+tr,
+td {
+  @apply p-4 text-center;
+}
