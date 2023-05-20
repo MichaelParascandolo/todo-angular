@@ -1,1 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=Pacifico&display=swap");
+
+body {
+  /* @apply bg-gradient-to-b from-orange-500 to-yellow-300 h-screen; */
+  @apply bg-[#4686F7] font-sans;
+}
