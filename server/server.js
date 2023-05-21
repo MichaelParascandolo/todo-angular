@@ -3,6 +3,14 @@ const app = express();
 const port = 3000;
 const mysql = require("mysql");
 
+// allow cross-origin requests
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
+
 // database connection
 const connection = mysql.createConnection({
   host: "localhost",
@@ -26,7 +34,7 @@ app.get("/api/employees", (req, res) => {
     if (err) {
       console.error("Error executing query:", err);
     } else {
-      res.send({ Employees: rows });
+      res.send(rows);
     }
   });
 });
@@ -38,7 +46,7 @@ app.get("/api/projects", (req, res) => {
     if (err) {
       console.error("Error executing query:", err);
     } else {
-      res.send({ Projects: rows });
+      res.send(rows);
     }
   });
 });
