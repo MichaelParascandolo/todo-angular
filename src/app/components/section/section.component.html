@@ -8,6 +8,11 @@
     />
   </div>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <app-project-item *ngFor="let item of items" [name]="item.name" />
+    <app-project-item
+      *ngFor="let item of items"
+      [name]="item.name"
+      [employee_id]="item.employee_id"
+      [project_id]="item.project_id"
+    />
   </div>
 </div>

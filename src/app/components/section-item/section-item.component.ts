@@ -5,5 +5,7 @@ import { Component, Input } from '@angular/core';
   templateUrl: './section-item.component.html',
 })
 export class SectionItemComponent {
-  @Input() name: string | undefined;
+  @Input() name?: string;
+  @Input() employee_id?: number;
+  @Input() project_id?: number;
 }

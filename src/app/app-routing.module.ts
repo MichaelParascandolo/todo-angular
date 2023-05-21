@@ -12,6 +12,7 @@ const routes: Routes = [
   {
     path: 'details',
     component: DetailsComponent,
+    pathMatch: 'full',
   },
 ];
 
