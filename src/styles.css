@@ -8,12 +8,20 @@ body {
   @apply bg-[#4686F7] font-sans;
 }
 table {
-  @apply bg-gradient-to-r from-orange-500 to-yellow-500 text-gray-100;
+  @apply bg-[#FB8B22] text-gray-100;
 }
 th {
-  @apply text-xl tracking-wider border-b-2 border-[#FC0062];
+  @apply text-lg tracking-wider uppercase font-bold border-b-2 border-[#FDD241];
+}
+tr:not(:last-child) {
+  @apply border-b-2 border-[#FDD241];
+}
+td:not(:last-child) {
+  @apply border-r-2 border-[#FDD241];
 }
 tr,
+th,
 td {
   @apply p-4 text-center;
 }
+/* FC0062 */
