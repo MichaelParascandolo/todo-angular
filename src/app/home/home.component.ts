@@ -2,13 +2,9 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap } from 'rxjs';
 
-interface EmployeeData {
-  employee_id: number;
-  name: string;
-}
-
-interface ProjectData {
-  project_id: number;
+export interface SectionItemData {
+  employee_id?: number;
+  project_id?: number;
   name: string;
 }
 
@@ -19,18 +15,18 @@ interface ProjectData {
 export class HomeComponent {
   constructor(private http: HttpClient) {}
 
-  projects: ProjectData[] = [];
-  employees: EmployeeData[] = [];
+  projects: SectionItemData[] = [];
+  employees: SectionItemData[] = [];
 
   getEmployees = () => {
     this.http
       .get<any>('http://localhost:3000/api/employees')
       .pipe(
-        tap((response: EmployeeData[]) => {
+        tap((response: SectionItemData[]) => {
           this.employees = response;
           // console.log(this.employees);
         }),
-        catchError((error: any) => {
+        catchError((error: string) => {
           return error;
         })
       )
@@ -41,11 +37,11 @@ export class HomeComponent {
     this.http
       .get<any>('http://localhost:3000/api/projects')
       .pipe(
-        tap((response: ProjectData[]) => {
+        tap((response: SectionItemData[]) => {
           this.projects = response;
           // console.log(this.projects);
         }),
-        catchError((error: any) => {
+        catchError((error: string) => {
           return error;
         })
       )

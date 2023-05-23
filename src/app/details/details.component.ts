@@ -3,6 +3,15 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap } from 'rxjs';
 
+interface AssignmentData {
+  assignment_id: number;
+  employee_id: number;
+  employee_name: string;
+  estimated_hours: number;
+  name: string;
+  project_id: number;
+}
+
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
@@ -14,7 +23,7 @@ export class DetailsComponent {
   apiURL: string = '';
   totalHours: number = 0;
 
-  assignments: any = [];
+  assignments: AssignmentData[] = [];
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
@@ -30,10 +39,10 @@ export class DetailsComponent {
     this.http
       .get<any>(`http://localhost:3000/api/assignments?projectId=${projectId}`)
       .pipe(
-        tap((response: any) => {
+        tap((response: AssignmentData[]) => {
           console.log(response);
           // sort assignments by assignment_id
-          response.sort((a: any, b: any) => {
+          response.sort((a: AssignmentData, b: AssignmentData) => {
             return a.assignment_id - b.assignment_id;
           });
           // set assignments to the response
@@ -41,7 +50,7 @@ export class DetailsComponent {
           // set total hours
           this.setTotalHours();
         }),
-        catchError((error: any) => {
+        catchError((error: string) => {
           return error;
         })
       )
