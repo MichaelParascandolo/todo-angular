@@ -1,7 +1,4 @@
-import { Component, Input, NgIterable } from '@angular/core';
-import { SectionItemData } from 'src/app/home/home.component';
-import { EmployeeData } from 'src/app/home/home.component';
-import { ProjectData } from 'src/app/home/home.component';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-section',
@@ -9,5 +6,5 @@ import { ProjectData } from 'src/app/home/home.component';
 })
 export class SectionComponent {
   @Input() title?: string; // title for section
-  @Input() items?: any;
+  @Input() items?: any; // items for section
 }
