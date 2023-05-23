@@ -32,7 +32,13 @@ export class DetailsComponent {
       .pipe(
         tap((response: any) => {
           console.log(response);
+          // sort assignments by assignment_id
+          response.sort((a: any, b: any) => {
+            return a.assignment_id - b.assignment_id;
+          });
+          // set assignments to the response
           this.assignments = response;
+          // set total hours
           this.setTotalHours();
         }),
         catchError((error: any) => {
