@@ -6,7 +6,7 @@
       <h3
         class="text-gray-100 text-3xl mt-4 font-bold tracking-widest uppercase"
       >
-        {{ name }}
+        {{ name }}{{ assignments.length >= 1 ? null : "'s Projects List" }}
       </h3>
       <h3
         *ngIf="assignments.length >= 1"
