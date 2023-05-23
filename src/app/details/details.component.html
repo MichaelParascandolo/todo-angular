@@ -17,16 +17,7 @@
     </div>
     <hr class="w-full bg-[#FC0062] h-0.5 mt-2 border-0" />
   </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <!-- <app-project-item *ngFor="let item of items" [name]="item.name" /> -->
-  </div>
   <!-- table -->
-  <h2
-    *ngIf="assignments.length < 1"
-    class="my-4 text-center text-white text-xl"
-  >
-    NO TASKS
-  </h2>
   <table class="w-full my-4 table-auto rounded-xl">
     <thead>
       <!-- if displaying assignments -->
@@ -43,7 +34,7 @@
         <th>Actions</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="text-gray-200">
       <!-- if displaying assignments -->
       <tr *ngFor="let assignment of assignments">
         <td>{{ assignment.name }}</td>
@@ -52,7 +43,18 @@
       </tr>
       <!-- if displaying project list -->
       <tr *ngFor="let project of projects">
-        <td>{{ project.name }}</td>
+        <td>{{ project.project_name }}</td>
+        <td>{{ project.employee_names }}</td>
+        <td>{{ project.total_estimated_hours }}</td>
+        <td>
+          <a href="/">
+            <button
+              class="text-white font-bold bg-[#FC0062] h-[50px] py-1 px-4 rounded-xl hover:bg-[#DE1E69] transition-all ease-in-out duration-300"
+            >
+              View
+            </button>
+          </a>
+        </td>
       </tr>
     </tbody>
   </table>

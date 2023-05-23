@@ -93,10 +93,17 @@ app.get("/api/assignments", (req, res) => {
 // get list of projects containing employee ID
 app.get("/api/employee-projects", (req, res) => {
   const employeeId = req.query.employeeId;
-  const sql = `SELECT *
-  FROM projects
-  JOIN assignments ON projects.project_id = assignments.project_id
-  JOIN employee ON ? = employee.employee_id;`;
+  const sql = `SELECT assignments.project_id, MIN(assignments.assignment_id) AS assignment_id, GROUP_CONCAT(DISTINCT employee.name SEPARATOR ', ') AS employee_names, MIN(projects.name) AS project_name, COALESCE(SUM(assignments.estimated_hours), 0) AS total_estimated_hours
+  FROM assignments
+  JOIN employee ON assignments.employee_id = employee.employee_id
+  JOIN projects ON assignments.project_id = projects.project_id
+  WHERE assignments.project_id IN (
+    SELECT project_id
+    FROM assignments
+    WHERE employee_id IN (?)
+  )
+  GROUP BY assignments.project_id, projects.name
+  `;
   connection.query(sql, [employeeId], (err, rows) => {
     if (err) {
       console.error("Error executing query:", err);
