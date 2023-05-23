@@ -24,6 +24,7 @@ export class DetailsComponent {
   totalHours: number = 0;
 
   assignments: AssignmentData[] = [];
+  projects: any = [];
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
@@ -35,26 +36,55 @@ export class DetailsComponent {
   };
 
   // get data from the API
-  getData = (projectId: number | undefined) => {
-    this.http
-      .get<any>(`http://localhost:3000/api/assignments?projectId=${projectId}`)
-      .pipe(
-        tap((response: AssignmentData[]) => {
-          console.log(response);
-          // sort assignments by assignment_id
-          response.sort((a: AssignmentData, b: AssignmentData) => {
-            return a.assignment_id - b.assignment_id;
-          });
-          // set assignments to the response
-          this.assignments = response;
-          // set total hours
-          this.setTotalHours();
-        }),
-        catchError((error: string) => {
-          return error;
-        })
-      )
-      .subscribe();
+  getData = (
+    projectId: number | undefined,
+    employee_id: number | undefined
+  ) => {
+    if (projectId !== undefined) {
+      this.http
+        .get<any>(
+          `http://localhost:3000/api/assignments?projectId=${projectId}`
+        )
+        .pipe(
+          tap((response: AssignmentData[]) => {
+            console.log(response);
+            // sort assignments by assignment_id
+            response.sort((a: AssignmentData, b: AssignmentData) => {
+              return a.assignment_id - b.assignment_id;
+            });
+            // set assignments to the response
+            this.assignments = response;
+            // set total hours
+            this.setTotalHours();
+          }),
+          catchError((error: string) => {
+            return error;
+          })
+        )
+        .subscribe();
+    } else if (employee_id !== undefined) {
+      this.http
+        .get<any>(
+          `http://localhost:3000/api/employee-projects?employeeId=${employee_id}`
+        )
+        .pipe(
+          tap((response: AssignmentData[]) => {
+            console.log(response);
+            this.projects = response;
+            // remove duplicate projects
+            this.projects = this.projects.filter(
+              (v: any, i: any, a: any) =>
+                a.findIndex((t: any) => t.project_id === v.project_id) === i
+            );
+            // set total hours
+            this.setTotalHours();
+          }),
+          catchError((error: string) => {
+            return error;
+          })
+        )
+        .subscribe();
+    }
   };
 
   ngOnInit(): void {
@@ -62,10 +92,10 @@ export class DetailsComponent {
       this.name = params['name'];
       this.projectID = params['projectID'];
       this.employeeID = params['employeeID'];
-      this.getData(this.projectID);
+      this.getData(this.projectID, this.employeeID);
       // used for debugging
-      // console.log('Project ID: ' + this.projectID);
-      // console.log('Employee ID: ' + this.employeeID);
+      console.log('Project ID: ' + this.projectID);
+      console.log('Employee ID: ' + this.employeeID);
     });
   }
 }

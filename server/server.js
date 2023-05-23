@@ -69,17 +69,17 @@ app.get("/api/assignments", (req, res) => {
   });
 });
 
-// get all employees and all projects
-app.get("/api/employees-projects", (req, res) => {
-  const sql = "SELECT * FROM employee";
-  let emp;
-  connection.query(sql, (err, rows) => {
+// get list of projects containing employee ID
+app.get("/api/employee-projects", (req, res) => {
+  const employeeId = req.query.employeeId;
+  const sql = `SELECT projects.* FROM projects JOIN assignments ON projects.project_id = assignments.project_id WHERE assignments.employee_id = ?;`;
+  connection.query(sql, [employeeId], (err, rows) => {
     if (err) {
       console.error("Error executing query:", err);
+    } else {
+      res.send(rows);
     }
-    emp = rows;
   });
-  res.send({ Employees: emp });
 });
 
 app.listen(port, () => {

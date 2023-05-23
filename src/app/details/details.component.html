@@ -9,6 +9,7 @@
         {{ name }}
       </h3>
       <h3
+        *ngIf="assignments.length >= 1"
         class="text-gray-100 text-2xl mt-4 font-bold tracking-wider uppercase"
       >
         {{ totalHours }} Hours
@@ -26,28 +27,33 @@
   >
     NO TASKS
   </h2>
-  <table
-    *ngIf="assignments.length >= 1"
-    class="w-full my-4 table-auto rounded-xl"
-  >
+  <table class="w-full my-4 table-auto rounded-xl">
     <thead>
-      <tr>
+      <!-- if displaying assignments -->
+      <tr *ngIf="assignments.length >= 1">
         <th>Task</th>
         <th>Assigned To</th>
         <th>Estimated Hours</th>
       </tr>
+      <!-- if displaying project list -->
+      <tr *ngIf="projects.length >= 1">
+        <th>Project</th>
+        <th>Members</th>
+        <th>Estimated Hours</th>
+        <th>Actions</th>
+      </tr>
     </thead>
     <tbody>
+      <!-- if displaying assignments -->
       <tr *ngFor="let assignment of assignments">
         <td>{{ assignment.name }}</td>
         <td>{{ assignment.employee_name }}</td>
         <td>{{ assignment.estimated_hours }}</td>
       </tr>
-      <!-- <tr>
-        <td>Task 1</td>
-        <td>John</td>
-        <td>5</td>
-      </tr> -->
+      <!-- if displaying project list -->
+      <tr *ngFor="let project of projects">
+        <td>{{ project.name }}</td>
+      </tr>
     </tbody>
   </table>
   <a href="/">
