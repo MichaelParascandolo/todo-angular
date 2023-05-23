@@ -51,10 +51,11 @@ app.get("/api/projects", (req, res) => {
   });
 });
 
-// get all assignments
+// get all assignments from project ID
 app.get("/api/assignments", (req, res) => {
-  const sql = "SELECT * FROM assignments";
-  connection.query(sql, (err, rows) => {
+  const projectId = req.query.projectId;
+  const sql = "SELECT * FROM assignments WHERE project_id = ?";
+  connection.query(sql, [projectId], (err, rows) => {
     if (err) {
       console.error("Error executing query:", err);
     } else {

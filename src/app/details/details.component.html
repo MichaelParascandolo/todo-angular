@@ -11,7 +11,7 @@
       <h3
         class="text-gray-100 text-2xl mt-4 font-bold tracking-wider uppercase"
       >
-        20 Hours
+        {{ totalHours }} Hours
       </h3>
     </div>
     <hr class="w-full bg-[#FC0062] h-0.5 mt-2 border-0" />
@@ -20,7 +20,16 @@
     <!-- <app-project-item *ngFor="let item of items" [name]="item.name" /> -->
   </div>
   <!-- table -->
-  <table class="w-full my-4 table-auto rounded-xl">
+  <h2
+    *ngIf="assignments.length < 1"
+    class="my-4 text-center text-white text-xl"
+  >
+    NO TASKS
+  </h2>
+  <table
+    *ngIf="assignments.length >= 1"
+    class="w-full my-4 table-auto rounded-xl"
+  >
     <thead>
       <tr>
         <th>Task</th>
@@ -29,21 +38,16 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr *ngFor="let assignment of assignments">
+        <td>{{ assignment.name }}</td>
+        <td>{{ assignment.employee }}</td>
+        <td>{{ assignment.estimated_hours }}</td>
+      </tr>
+      <!-- <tr>
         <td>Task 1</td>
         <td>John</td>
         <td>5</td>
-      </tr>
-      <tr>
-        <td>Task 2</td>
-        <td>Jane</td>
-        <td>3</td>
-      </tr>
-      <tr>
-        <td>Task 3</td>
-        <td>Bob</td>
-        <td>8</td>
-      </tr>
+      </tr> -->
     </tbody>
   </table>
   <a href="/">
