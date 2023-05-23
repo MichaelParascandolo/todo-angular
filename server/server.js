@@ -1,7 +1,7 @@
 const express = require("express");
+const mysql = require("mysql");
 const app = express();
 const port = 3000;
-const mysql = require("mysql");
 
 // allow cross-origin requests
 app.use((req, res, next) => {
@@ -25,6 +25,27 @@ connection.connect((err) => {
   } else {
     console.log("Connected to MySQL database");
   }
+});
+
+// get all employees and all projects
+app.get("/api/employees-and-projects", (req, res) => {
+  const employeeSql = `SELECT * FROM employee;`;
+  const projectsSql = `SELECT * FROM projects;`;
+  connection.query(employeeSql, (err, employeeRows) => {
+    if (err) {
+      console.error("Error executing employee query:", err);
+    } else {
+      connection.query(projectsSql, (err, projectsRows) => {
+        if (err) {
+          console.error("Error executing projects query:", err);
+        } else {
+          const employeeData = JSON.parse(JSON.stringify(employeeRows));
+          const projectsData = JSON.parse(JSON.stringify(projectsRows));
+          res.json({ employees: employeeData, projects: projectsData });
+        }
+      });
+    }
+  });
 });
 
 // get all employees
@@ -72,7 +93,10 @@ app.get("/api/assignments", (req, res) => {
 // get list of projects containing employee ID
 app.get("/api/employee-projects", (req, res) => {
   const employeeId = req.query.employeeId;
-  const sql = `SELECT projects.* FROM projects JOIN assignments ON projects.project_id = assignments.project_id WHERE assignments.employee_id = ?;`;
+  const sql = `SELECT *
+  FROM projects
+  JOIN assignments ON projects.project_id = assignments.project_id
+  JOIN employee ON ? = employee.employee_id;`;
   connection.query(sql, [employeeId], (err, rows) => {
     if (err) {
       console.error("Error executing query:", err);

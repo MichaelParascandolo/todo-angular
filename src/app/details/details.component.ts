@@ -71,11 +71,6 @@ export class DetailsComponent {
           tap((response: AssignmentData[]) => {
             console.log(response);
             this.projects = response;
-            // remove duplicate projects
-            this.projects = this.projects.filter(
-              (v: any, i: any, a: any) =>
-                a.findIndex((t: any) => t.project_id === v.project_id) === i
-            );
             // set total hours
             this.setTotalHours();
           }),

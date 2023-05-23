@@ -3,8 +3,21 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, tap } from 'rxjs';
 
 export interface SectionItemData {
+  projects: ProjectData[];
+  employees: EmployeeData[];
   employee_id?: number;
   project_id?: number;
+  name: string;
+}
+
+export interface EmployeeData {
+  employee_id: number;
+  project_id?: number;
+  name: string;
+}
+
+export interface ProjectData {
+  project_id: number;
   name: string;
 }
 
@@ -15,31 +28,16 @@ export interface SectionItemData {
 export class HomeComponent {
   constructor(private http: HttpClient) {}
 
-  projects: SectionItemData[] = [];
-  employees: SectionItemData[] = [];
+  projects: ProjectData[] = [];
+  employees: EmployeeData[] = [];
 
-  getEmployees = () => {
+  getData = () => {
     this.http
-      .get<any>('http://localhost:3000/api/employees')
+      .get<any>('http://localhost:3000/api/employees-and-projects')
       .pipe(
-        tap((response: SectionItemData[]) => {
-          this.employees = response;
-          // console.log(this.employees);
-        }),
-        catchError((error: string) => {
-          return error;
-        })
-      )
-      .subscribe();
-  };
-
-  getProjects = () => {
-    this.http
-      .get<any>('http://localhost:3000/api/projects')
-      .pipe(
-        tap((response: SectionItemData[]) => {
-          this.projects = response;
-          // console.log(this.projects);
+        tap((response: SectionItemData) => {
+          this.employees = response.employees;
+          this.projects = response.projects;
         }),
         catchError((error: string) => {
           return error;
@@ -49,7 +47,6 @@ export class HomeComponent {
   };
 
   ngOnInit() {
-    this.getEmployees();
-    this.getProjects();
+    this.getData();
   }
 }
