@@ -12,6 +12,14 @@ interface AssignmentData {
   project_id: number;
 }
 
+interface ProjectData {
+  assignment_id: number;
+  employee_names: string;
+  project_id: number;
+  project_name: string;
+  total_estimated_hours: number;
+}
+
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
@@ -24,7 +32,7 @@ export class DetailsComponent {
   totalHours: number = 0;
 
   assignments: AssignmentData[] = [];
-  projects: any = [];
+  projects: ProjectData[] = [];
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
@@ -68,11 +76,9 @@ export class DetailsComponent {
           `http://localhost:3000/api/employee-projects?employeeId=${employee_id}`
         )
         .pipe(
-          tap((response: AssignmentData[]) => {
+          tap((response: ProjectData[]) => {
             console.log(response);
             this.projects = response;
-            // set total hours
-            this.setTotalHours();
           }),
           catchError((error: string) => {
             return error;
@@ -80,6 +86,14 @@ export class DetailsComponent {
         )
         .subscribe();
     }
+  };
+
+  // reset data when coming from the employee page
+  resetData = () => {
+    console.log('RESET DATA');
+    this.assignments = [];
+    this.totalHours = 0;
+    this.projects = [];
   };
 
   ngOnInit(): void {

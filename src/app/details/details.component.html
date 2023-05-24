@@ -47,7 +47,16 @@
         <td>{{ project.employee_names }}</td>
         <td>{{ project.total_estimated_hours }}</td>
         <td>
-          <a href="/">
+          <a
+            (click)="resetData()"
+            [routerLink]="['/details']"
+            [queryParams]="{
+              name: project.project_name,
+              projectID: project.project_id,
+              employeeID: undefined,
+            }"
+            class="my-auto"
+          >
             <button
               class="text-white font-bold bg-[#FC0062] h-[50px] py-1 px-4 rounded-xl hover:bg-[#DE1E69] transition-all ease-in-out duration-300"
             >
