@@ -48,6 +48,30 @@ app.get("/api/employees-and-projects", (req, res) => {
   });
 });
 
+// delete project
+app.delete("/api/projects-delete", (req, res) => {
+  const project_id = req.query.project_id;
+  if (!project_id) {
+    res.status(400).send("Missing project_id parameter");
+    return;
+  }
+  const assignmentsSql = `DELETE FROM assignments WHERE project_id = ?;`;
+  const projectSql = `DELETE FROM projects WHERE project_id = ?;`;
+  connection.query(assignmentsSql, [project_id], (err, assignmentsRows) => {
+    if (err) {
+      res.status(500).send("Error deleting project assignments");
+    } else {
+      connection.query(projectSql, [project_id], (err, projectRows) => {
+        if (err) {
+          res.status(500).send("Error deleting project");
+        } else {
+          res.send("Project deleted");
+        }
+      });
+    }
+  });
+});
+
 // get all employees
 app.get("/api/employees", (req, res) => {
   const sql = "SELECT * FROM employee";

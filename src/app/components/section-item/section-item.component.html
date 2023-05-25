@@ -2,19 +2,30 @@
   class="w-full h-[75px] bg-gradient-to-r from-orange-500 to-yellow-300 rounded-2xl flex justify-between px-6 mx-auto hover:scale-105 ease-in-out transition-all duration-300"
 >
   <p class="my-auto text-gray-100 tracking-wider ml-4 text-xl">{{ name }}</p>
-  <a
-    [routerLink]="['/details']"
-    [queryParams]="{
-      name: name,
-      projectID: project_id,
-      employeeID: employee_id
-    }"
-    class="my-auto"
-  >
-    <button
-      class="text-white font-bold bg-[#FC0062] h-[50px] px-4 rounded-xl hover:bg-[#DE1E69] transition-all ease-in-out duration-300"
+  <div class="my-auto">
+    <a
+      [routerLink]="['/details']"
+      [queryParams]="{
+        name: name,
+        projectID: project_id,
+        employeeID: employee_id
+      }"
+      class="my-auto"
     >
-      {{ project_id ? "Details" : "Projects" }}
+      <button
+        class="text-white font-bold bg-[#FC0062] h-[50px] px-4 rounded-xl hover:bg-[#DE1E69] transition-all ease-in-out duration-300"
+      >
+        {{ project_id ? null : "Project List" }}
+        <i *ngIf="project_id" class="fa-solid fa-circle-info fa-lg"></i>
+        <i *ngIf="!project_id" class="fa-solid fa-list-check ml-2 fa-lg"></i>
+      </button>
+    </a>
+    <button
+      (click)="deleteProject()"
+      *ngIf="project_id"
+      class="text-white font-bold bg-[#FC0062] h-[50px] ml-4 px-4 rounded-xl hover:bg-[#DE1E69] transition-all ease-in-out duration-300"
+    >
+      <i class="fa-solid fa-check fa-xl"></i>
     </button>
-  </a>
+  </div>
 </div>

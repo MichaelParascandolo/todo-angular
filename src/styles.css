@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=Pacifico&display=swap");
+@import "~@fortawesome/fontawesome-free/css/all.css";
 
 body {
   /* @apply bg-gradient-to-b from-orange-500 to-yellow-300 h-screen; */

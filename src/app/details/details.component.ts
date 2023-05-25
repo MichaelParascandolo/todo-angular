@@ -57,7 +57,7 @@ export class DetailsComponent {
       .get<AssignmentData[] | ProjectData[]>(this.apiURL)
       .pipe(
         tap((response: AssignmentData[] | ProjectData[]) => {
-          console.log(response);
+          // console.log(response);
           if (projectId) {
             this.assignments = response as AssignmentData[];
             this.setTotalHours();
@@ -74,7 +74,7 @@ export class DetailsComponent {
 
   // reset data when coming from the employee page
   resetData = () => {
-    console.log('RESET DATA');
+    // console.log('RESET DATA');
     this.assignments = [];
     this.totalHours = 0;
     this.projects = [];
@@ -87,8 +87,8 @@ export class DetailsComponent {
       this.employeeID = params['employeeID'];
       this.getData(this.projectID, this.employeeID);
       // used for debugging
-      console.log('Project ID: ' + this.projectID);
-      console.log('Employee ID: ' + this.employeeID);
+      // console.log('Project ID: ' + this.projectID);
+      // console.log('Employee ID: ' + this.employeeID);
     });
   }
 }
