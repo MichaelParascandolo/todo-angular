@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap } from 'rxjs';
@@ -80,7 +80,7 @@ export class DetailsComponent {
     this.projects = [];
   };
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.name = params['name'];
       this.projectID = params['projectID'];

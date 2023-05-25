@@ -33,7 +33,7 @@ export class HomeComponent {
 
   getData = () => {
     this.http
-      .get<any>('http://localhost:3000/api/employees-and-projects')
+      .get<SectionItemData>('http://localhost:3000/api/employees-and-projects')
       .pipe(
         tap((response: SectionItemData) => {
           this.employees = response.employees;
