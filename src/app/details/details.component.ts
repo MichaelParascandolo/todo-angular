@@ -48,44 +48,28 @@ export class DetailsComponent {
     projectId: number | undefined,
     employee_id: number | undefined
   ) => {
-    if (projectId !== undefined) {
-      this.http
-        .get<any>(
-          `http://localhost:3000/api/assignments?projectId=${projectId}`
-        )
-        .pipe(
-          tap((response: AssignmentData[]) => {
-            console.log(response);
-            // sort assignments by assignment_id
-            response.sort((a: AssignmentData, b: AssignmentData) => {
-              return a.assignment_id - b.assignment_id;
-            });
-            // set assignments to the response
-            this.assignments = response;
-            // set total hours
-            this.setTotalHours();
-          }),
-          catchError((error: string) => {
-            return error;
-          })
-        )
-        .subscribe();
-    } else if (employee_id !== undefined) {
-      this.http
-        .get<any>(
-          `http://localhost:3000/api/employee-projects?employeeId=${employee_id}`
-        )
-        .pipe(
-          tap((response: ProjectData[]) => {
-            console.log(response);
-            this.projects = response;
-          }),
-          catchError((error: string) => {
-            return error;
-          })
-        )
-        .subscribe();
+    if (projectId) {
+      this.apiURL = `http://localhost:3000/api/assignments?projectId=${projectId}`;
+    } else if (employee_id) {
+      this.apiURL = `http://localhost:3000/api/employee-projects?employeeId=${employee_id}`;
     }
+    this.http
+      .get<AssignmentData[] | ProjectData[]>(this.apiURL)
+      .pipe(
+        tap((response: AssignmentData[] | ProjectData[]) => {
+          console.log(response);
+          if (projectId) {
+            this.assignments = response as AssignmentData[];
+            this.setTotalHours();
+          } else if (employee_id) {
+            this.projects = response as ProjectData[];
+          }
+        }),
+        catchError((error: string) => {
+          return error;
+        })
+      )
+      .subscribe();
   };
 
   // reset data when coming from the employee page
