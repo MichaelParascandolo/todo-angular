@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-project-item',
+  selector: 'app-section-item',
   templateUrl: './section-item.component.html',
 })
 export class SectionItemComponent {
