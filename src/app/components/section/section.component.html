@@ -8,11 +8,17 @@
     />
   </div>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- PROJECT SECTION -->
     <app-section-item
-      *ngFor="let item of items"
-      [name]="item.name"
-      [employee_id]="item.employee_id"
-      [project_id]="item.project_id"
+      *ngFor="let project of projects"
+      [name]="project.name"
+      [project_id]="project.project_id"
+    />
+    <!-- TEAM SECTION -->
+    <app-section-item
+      *ngFor="let employee of employees"
+      [name]="employee.name"
+      [employee_id]="employee.employee_id"
     />
   </div>
 </div>
